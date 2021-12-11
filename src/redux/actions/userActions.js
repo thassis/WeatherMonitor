@@ -1,16 +1,24 @@
-export const SET_CITIES = 'SET_CITIES';
+export const SET_USER = 'SET_USER';
+export const ADD_NEW_CITY = 'ADD_NEW_CITY';
 export const SET_LANGUAGE = 'SET_LANGUAGES';
 
 export const setLanguage = (language) => {
-    return {
-        type: SET_LANGUAGE,
-        payload: language
-    }
+  return {
+    type: SET_LANGUAGE,
+    payload: language
+  }
 }
 
-export const setCities = (cities) => {
-    return {
-        type: SET_CITIES,
-        payload: cities
-    }
+export const addNewCity = (city) => {
+  return {
+    type: ADD_NEW_CITY,
+    payload: city
+  }
+}
+
+export const setUser = (user) => {
+  return {
+    type: SET_USER,
+    payload: user
+  }
 }

@@ -1,0 +1,3 @@
+export const USER_STORAGE_KEY = 'USER_STORAGE_KEY';
+
+export const OPEN_WEATHER_KEY = '5ec3cb9940ba9798946492627da5455e';

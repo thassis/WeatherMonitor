@@ -1,5 +1,6 @@
 import {
-  SET_CITIES,
+  ADD_NEW_CITY,
+  SET_USER,
   SET_LANGUAGE,
 } from "../actions/userActions";
 
@@ -8,12 +9,15 @@ const initialState = {
   language: 'ptBr'
 };
 
-const citiesList = (state = initialState, action) => {
+const userData = (state = initialState, action) => {
   switch (action.type) {
-    case SET_CITIES:
+    case SET_USER:
+      return action.payload;
+
+    case ADD_NEW_CITY:
       return {
         ...state,
-        addedCities: action.payload,
+        addedCities: [...state.addedCities, action.payload],
       }
 
     case SET_LANGUAGE:
@@ -27,4 +31,4 @@ const citiesList = (state = initialState, action) => {
   }
 }
 
-export default citiesList
+export default userData;

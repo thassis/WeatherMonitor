@@ -10,7 +10,6 @@ import rootReducer from './src/redux/reducers';
 
 const store = createStore(rootReducer);
 
-
 import Splash from './src/screens/SplashScreen/Splash';
 import ListCities from './src/screens/ListCitiesScreen/ListCities';
 import DetailsCity from './src/screens/DetailsCityScreen/DetailsCity';
