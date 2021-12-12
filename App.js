@@ -16,7 +16,9 @@ import DetailsCity from './src/screens/DetailsCityScreen/DetailsCity';
 import Search from './src/screens/SearchScreen/Search';
 
 import { NavigationContainer } from '@react-navigation/native';
+import { CardStyleInterpolators } from '@react-navigation/stack';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import colors from './src/utils/colors';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,9 +28,16 @@ const App = () => {
 
       <NavigationContainer>
         <SafeAreaView style={{ flex: 1 }}>
-          <StatusBar barStyle={'light-content'} />
+          <StatusBar backgroundColor={colors.white} barStyle='dark-content' />
 
-          <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
+          <Stack.Navigator
+            initialRouteName="Splash"
+            screenOptions={{
+              headerShown: false,
+              cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+            }}
+
+          >
             <Stack.Screen name="Splash" component={Splash} />
             <Stack.Screen name="ListCities" component={ListCities} />
             <Stack.Screen name="DetailsCity" component={DetailsCity} />

@@ -32,6 +32,7 @@ export const getWeatherCitiesData = async (cities) => {
         temp_max: Math.round(response.main.temp_max),
         description: response.weather[0].description,
         icon: response.weather[0].icon,
+        country: response.sys.country,
         OpwId: response.id,
       }
       weatherCities.push(weatherCity);

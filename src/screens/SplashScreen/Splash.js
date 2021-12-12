@@ -22,7 +22,6 @@ const Splash = ({ navigation }) => {
         const weatherCitiesData = await getWeatherCitiesData(user.addedCities);
         user.addedCities = weatherCitiesData;
         dispatch(setUserState(user));
-        console.log(user);
       }
       setLoading(false);
       navigation.navigate('ListCities');
