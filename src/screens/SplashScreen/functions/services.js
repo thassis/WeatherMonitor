@@ -19,26 +19,32 @@ export const getUserData = async () => {
 export const getWeatherCitiesData = async (cities) => {
   const weatherCities = [];
   for (city of cities) {
-    var url = CURRENT_WEATHER_URL
-      .replace('{city}', city)
-      .replace('{lang}', 'pt_Br')
-      .replace('{units}', 'metric');
-    try {
-      const response = (await axios.get(url)).data;
-      const weatherCity = {
-        name: response.name,
-        temp: Math.round(response.main.temp),
-        temp_min: Math.round(response.main.temp_min),
-        temp_max: Math.round(response.main.temp_max),
-        description: response.weather[0].description,
-        icon: response.weather[0].icon,
-        country: response.sys.country,
-        OpwId: response.id,
-      }
-      weatherCities.push(weatherCity);
-    } catch (e) {
-      // console.log(e);
-    }
+    const weatherCity = await getWeatherCity(city);
+    weatherCities.push(weatherCity);
   }
   return weatherCities;
+}
+
+export const getWeatherCity = async (city) => {
+  var url = CURRENT_WEATHER_URL
+    .replace('{city}', city)
+    .replace('{lang}', 'pt_Br')
+    .replace('{units}', 'metric');
+  try {
+    const response = (await axios.get(url)).data;
+    const weatherCity = {
+      name: response.name,
+      temp: Math.round(response.main.temp),
+      temp_min: Math.round(response.main.temp_min),
+      temp_max: Math.round(response.main.temp_max),
+      description: response.weather[0].description,
+      icon: response.weather[0].icon,
+      country: response.sys.country,
+      OpwId: response.id,
+    }
+    return weatherCity;
+  } catch (e) {
+    return null;
+    // console.log(e);
+  }
 }

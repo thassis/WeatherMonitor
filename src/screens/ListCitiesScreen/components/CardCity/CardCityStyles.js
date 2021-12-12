@@ -30,6 +30,9 @@ const styles = StyleSheet.create({
     flex: 1
   },
   right: {
+    alignItems: "flex-end",
+  },
+  rightRow: {
     alignItems: "center",
     justifyContent: "center",
   },
@@ -41,7 +44,6 @@ const styles = StyleSheet.create({
   weatherIcon: {
     width: 30,
     height: 30,
-    marginTop: 8
   },
   weatherCondition: {
     flexDirection: "row",
@@ -77,6 +79,27 @@ const styles = StyleSheet.create({
     color: colors.primaryBlue,
     marginRight: 4,
     textDecorationLine: "underline"
+  },
+  addButtonView: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 8
+  },
+  addedText: {
+    fontFamily: 'Roboto-Medium',
+    fontSize: 14,
+    color: colors.green,
+    marginLeft: 4,
+  },
+  addedView: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 8
+  },
+  trashIcon: {
+    right: 0,
+    top: 0
   }
 });
 

@@ -51,11 +51,13 @@ const Search = ({ navigation }) => {
       </View>
       <View style={styles.white}>
         <FlatList
+          keyboardShouldPersistTaps='handled'
           data={autoCompleteCities}
           renderItem={({ item }) => (
             <TouchableOpacity
+              key={item}
               style={styles.suggestedCity}
-              onPress={() => navigation.navigate('ListCities', { searchedCity: item })}
+              onPress={() => navigation.navigate('ListCities', { searchedCityName: item })}
             >
               <Icon name={'map-marker'} size={15} style={{ marginLeft: 8 }} />
               <Text style={styles.suggestedText}>{item}</Text>
@@ -66,9 +68,11 @@ const Search = ({ navigation }) => {
         {search.length > 0 && showNotFoundSuggested && (
           <TouchableOpacity
             style={styles.suggestedCity}
-            onPress={() => navigation.navigate('ListCities', { searchedCity: search })}
+            onPress={() => navigation.navigate('ListCities', { searchedCityName: search })}
           >
-            <Text style={[styles.suggestedText, { textAlign: "center", textDecorationLine: 'underline' }]}>{'Não encontrou uma sugestão? Tente buscar assim mesmo >'}</Text>
+            <Text style={[styles.suggestedText, { textAlign: "center", textDecorationLine: 'underline' }]}>
+              {'Não encontrou uma sugestão? Tente buscar assim mesmo'}
+            </Text>
           </TouchableOpacity>
         )}
       </View>

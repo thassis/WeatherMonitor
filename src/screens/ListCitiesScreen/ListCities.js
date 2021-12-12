@@ -1,34 +1,93 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { useSelector, useDispatch } from "react-redux";
-import { addNewCity } from "../../redux/actions/userActions";
-import { storeNewCity, clean } from "./functions/services";
+import { addNewCity, removeCity } from "../../redux/actions/userActions";
+import { storeNewCity, removeStoragedCity } from "./functions/services";
+import { getWeatherCity } from "../SplashScreen/functions/services";
 
 import SearchBar from "../../globalComponents/SearchBar/SearchBar";
 import CardCity from "./components/CardCity/CardCity";
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 import styles from "./ListCitiesStyles";
+import colors from "../../utils/colors";
 
 const ListCities = ({ navigation, route }) => {
-  const searchedCity = route.params ? route.params.searchedCity : '';
   const userObj = useSelector(state => state.user);
-
   const dispatch = useDispatch();
   const addCityState = (city) => dispatch(addNewCity(city));
+  const removeCityState = (city) => dispatch(removeCity(city));
+
+  const [searchedCityName, setSearchedCityName] = useState(route.params ? route.params.searchedCityName : '');
+  const [searchedWeatherCity, setSearchedWeatherCity] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const checkCityInList = (cityName) => {
+    const city = userObj.addedCities.find(el => el.name.toUpperCase() === cityName.toUpperCase())
+    return city ? true : false;
+  }
+
+  useEffect(() => {
+    const searchValue = route.params ? route.params.searchedCityName : '';
+    if (searchValue) {
+      async function getCityData() {
+        setLoading(true);
+        const weatherCity = await getWeatherCity(searchValue);
+        weatherCity.isAdded = checkCityInList(weatherCity.name);
+        setSearchedWeatherCity(weatherCity);
+        setSearchedCityName(searchValue);
+        setLoading(false);
+      }
+      getCityData();
+    }
+  }, [route]);
+
+  useEffect(() =>
+    navigation.addListener('beforeRemove', (e) => {
+      e.preventDefault();
+    }),
+    [navigation]
+  );
 
   const renderUserCities = () => {
+    if (loading) {
+      return (
+        <ActivityIndicator size="large" color={colors.primaryBlue} />
+      )
+    }
+
+    if (searchedCityName) {
+      if (searchedWeatherCity) {
+        return (
+          <CardCity
+            city={searchedWeatherCity}
+            alreadyAdded={searchedWeatherCity.isAdded}
+            saveNewCity={(city) => saveNewCity(city)}
+            removeCity={(cityName) => deleteCity(cityName)}
+            fromSearch
+          />
+        );
+      } else {
+        return (<Text>Não encontramos essa cidade</Text>)
+      }
+    }
     if (userObj && userObj.addedCities && userObj.addedCities.length > 0) {
       return (
         <FlatList
-          data={[].fill.call({ length: 10 }, userObj.addedCities[0])}
-          renderItem={({ item }) => (<CardCity city={item} />)}
-          keyExtractor={item => item.id}
+          data={userObj.addedCities}
+          renderItem={({ item }) => (
+            <CardCity
+              city={item}
+              fromSearch={false}
+              removeCity={(cityName) => deleteCity(cityName)}
+            />
+          )}
         />
       );
     }
@@ -38,14 +97,25 @@ const ListCities = ({ navigation, route }) => {
   }
 
   const saveNewCity = async (city) => {
-    await storeNewCity(userObj, city);
+    await storeNewCity(userObj, city.name);
     addCityState(city);
+    setSearchedCityName('');
+    setSearchedWeatherCity(null);
+    navigation.setParams({ searchedCityName: '' });
+  }
+
+  const deleteCity = async (cityName) => {
+    await removeStoragedCity(userObj, cityName);
+    removeCityState(cityName);
+    setSearchedCityName('');
+    setSearchedWeatherCity(null);
+    navigation.setParams({ searchedCityName: '' });
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <SearchBar value={searchedCity} onPress={() => navigation.navigate('Search')} />
+        <SearchBar value={searchedCityName} onPress={() => navigation.navigate('Search')} />
         <TouchableOpacity style={styles.settingIcon} onPress={() => navigation.navigate("Search")}>
           <Icon name={'cog'} size={20} />
         </TouchableOpacity>
@@ -53,12 +123,6 @@ const ListCities = ({ navigation, route }) => {
       <View style={styles.body}>
         {renderUserCities()}
       </View>
-      {/* <TouchableOpacity onPress={() => clean()}>
-        <Text>Remove all</Text>
-      </TouchableOpacity>*/}
-      <TouchableOpacity onPress={() => saveNewCity('Belo Horizonte')}>
-        <Text>ADD CITY</Text>
-      </TouchableOpacity>
     </View>
   );
 }

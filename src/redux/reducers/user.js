@@ -1,5 +1,6 @@
 import {
   ADD_NEW_CITY,
+  REMOVE_CITY,
   SET_USER,
   SET_LANGUAGE,
 } from "../actions/userActions";
@@ -17,7 +18,12 @@ const userData = (state = initialState, action) => {
     case ADD_NEW_CITY:
       return {
         ...state,
-        addedCities: [...state.addedCities, action.payload],
+        addedCities: [action.payload].concat([...state.addedCities]),
+      }
+    case REMOVE_CITY:
+      return {
+        ...state,
+        addedCities: [...state.addedCities].filter(city => city.name !== action.payload)
       }
 
     case SET_LANGUAGE:
