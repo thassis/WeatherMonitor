@@ -7,7 +7,7 @@ const windowHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.white,
+    backgroundColor: colors.secondaryBlue,
     alignItems: "center",
     justifyContent: "center"
   },
@@ -17,9 +17,9 @@ const styles = StyleSheet.create({
   textTitle: {
     fontSize: 24,
     fontFamily: "Roboto-Medium",
-    color: colors.red,
+    color: colors.black,
     top: 100
-  }
+  },
 });
 
 export default styles;

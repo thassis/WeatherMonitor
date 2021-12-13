@@ -9,7 +9,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 16,
     paddingBottom: 16,
-    borderBottomWidth: 0.1
+    borderBottomWidth: 0.2,
+    borderColor: colors.black
+
   },
   row: {
     flexDirection: "row",
@@ -33,7 +35,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   rightRow: {
-    alignItems: "center",
+    alignItems: "flex-end",
     justifyContent: "center",
   },
   tempText: {

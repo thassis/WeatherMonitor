@@ -5,9 +5,12 @@ export const storeNewCity = async (userObj, city) => {
   try {
     const newUserObj = { ...userObj };
     const cities_name = [];
-    cities_name.push(city);
+    cities_name.push({ name: city.name, isFavorite: city.isFavorite });
     for (let addedCity of newUserObj.addedCities) {
-      cities_name.push(addedCity.name);
+      cities_name.push({
+        name: addedCity.name,
+        isFavorite: addedCity.isFavorite
+      });
     }
     newUserObj.addedCities = cities_name;
     await AsyncStorage.setItem(
@@ -26,7 +29,9 @@ export const removeStoragedCity = async (userObj, city) => {
     const cities_name = [];
     for (let addedCity of newUserObj.addedCities) {
       if (addedCity.name !== city)
-        cities_name.push(addedCity.name);
+        cities_name.push({
+          name: addedCity.name, isFavorite: addedCity.isFavorite
+        });
     }
     newUserObj.addedCities = cities_name;
     await AsyncStorage.setItem(
@@ -35,6 +40,6 @@ export const removeStoragedCity = async (userObj, city) => {
     )
   } catch (e) {
     // console.log(e);
-    alert("Houve um problema ao salvar a cidade, tente novamente mais tarde");
+    alert("Houve um problema ao remover a cidade, tente novamente mais tarde");
   }
-} 
+}

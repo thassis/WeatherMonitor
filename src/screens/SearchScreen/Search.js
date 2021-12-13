@@ -63,7 +63,6 @@ const Search = ({ navigation }) => {
               <Text style={styles.suggestedText}>{item}</Text>
             </TouchableOpacity>
           )}
-          keyExtractor={item => item.id}
         />
         {search.length > 0 && showNotFoundSuggested && (
           <TouchableOpacity

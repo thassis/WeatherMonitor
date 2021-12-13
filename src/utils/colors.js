@@ -6,5 +6,5 @@ export default {
   red: "#ec6e4c",
   blue: "#87CEFA",
   yellow: "#fcbe11",
-  green: "green"
+  green: "#44c968"
 }

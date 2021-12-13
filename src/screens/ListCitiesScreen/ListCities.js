@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
+  StatusBar,
   Text,
   TouchableOpacity,
   View,
@@ -38,7 +39,8 @@ const ListCities = ({ navigation, route }) => {
     if (searchValue) {
       async function getCityData() {
         setLoading(true);
-        const weatherCity = await getWeatherCity(searchValue);
+        const weatherCity = await getWeatherCity({ name: searchValue, isFavorite: false });
+        console.log('is here so', searchValue);
         weatherCity.isAdded = checkCityInList(weatherCity.name);
         setSearchedWeatherCity(weatherCity);
         setSearchedCityName(searchValue);
@@ -97,16 +99,20 @@ const ListCities = ({ navigation, route }) => {
   }
 
   const saveNewCity = async (city) => {
+    console.log('store', city)
     await storeNewCity(userObj, city.name);
     addCityState(city);
-    setSearchedCityName('');
-    setSearchedWeatherCity(null);
-    navigation.setParams({ searchedCityName: '' });
+    resetScreen();
   }
 
   const deleteCity = async (cityName) => {
     await removeStoragedCity(userObj, cityName);
     removeCityState(cityName);
+    resetScreen()
+  }
+
+  const resetScreen = () => {
+    console.log('reset screen');
     setSearchedCityName('');
     setSearchedWeatherCity(null);
     navigation.setParams({ searchedCityName: '' });
@@ -114,8 +120,14 @@ const ListCities = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={colors.white} barStyle='dark-content' />
       <View style={styles.header}>
-        <SearchBar value={searchedCityName} onPress={() => navigation.navigate('Search')} />
+        <SearchBar
+          value={searchedCityName}
+          onPress={() => navigation.navigate('Search')}
+          goBack={() => resetScreen()}
+          showArrowLeft={searchedCityName ? true : false}
+        />
         <TouchableOpacity style={styles.settingIcon} onPress={() => navigation.navigate("Search")}>
           <Icon name={'cog'} size={20} />
         </TouchableOpacity>

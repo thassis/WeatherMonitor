@@ -27,10 +27,11 @@ export const getWeatherCitiesData = async (cities) => {
 
 export const getWeatherCity = async (city) => {
   var url = CURRENT_WEATHER_URL
-    .replace('{city}', city)
+    .replace('{city}', city.name)
     .replace('{lang}', 'pt_Br')
     .replace('{units}', 'metric');
   try {
+    console.log(url)
     const response = (await axios.get(url)).data;
     const weatherCity = {
       name: response.name,
@@ -40,6 +41,7 @@ export const getWeatherCity = async (city) => {
       description: response.weather[0].description,
       icon: response.weather[0].icon,
       country: response.sys.country,
+      isFavorite: city.isFavorite,
       OpwId: response.id,
     }
     return weatherCity;
