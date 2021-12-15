@@ -51,7 +51,7 @@ const DetailsCity = ({ navigation, route }) => {
     async function getAllWeatherData() {
       var coordinates = coords;
       if (!coordinates) {
-        const city = await getWeatherCity(userObj, cityName);
+        const city = await getWeatherCity(userObj, { name: cityName, isFavorite: false });
         if (city)
           coordinates = city.coord;
         else {
