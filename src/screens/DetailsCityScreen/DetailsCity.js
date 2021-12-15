@@ -41,7 +41,8 @@ const DetailsCity = ({ navigation, route }) => {
 
   const checkCityInList = (cityName) => {
     if (userObj && userObj.addedCities && userObj.addedCities.length > 0) {
-      const city = userObj.addedCities.find(el => el.name.toUpperCase() === cityName.toUpperCase())
+      const cityNameWithoutCountry = cityName.split(',')[0];
+      const city = userObj.addedCities.find(el => el.name.toUpperCase() === cityNameWithoutCountry.toUpperCase());
       return city ? true : false;
     }
     return false;
