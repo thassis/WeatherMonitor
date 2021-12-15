@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     borderBottomWidth: 0.2,
     borderColor: colors.black
-
   },
   row: {
     flexDirection: "row",
@@ -57,16 +56,9 @@ const styles = StyleSheet.create({
     color: colors.black,
     marginLeft: 8
   },
-  tempMin: {
+  tempMinMax: {
     fontSize: 12,
-    fontFamily: 'Roboto-Medium',
-    color: colors.red,
-    marginLeft: 4
-  },
-  tempMax: {
-    fontSize: 12,
-    fontFamily: 'Roboto-Medium',
-    color: colors.blue,
+    fontFamily: 'Roboto-Regular',
     marginLeft: 4
   },
   favoriteText: {

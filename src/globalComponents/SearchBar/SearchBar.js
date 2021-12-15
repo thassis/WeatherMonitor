@@ -1,10 +1,16 @@
 import React, { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
+
+import { languages } from "../../utils/settings";
 
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import styles from "./SearchBarStyles";
 
-const SearchBar = ({ onPress, value, onChange, showArrowLeft, goBack }) => {
+const SearchBar = ({ onPress, value, onChange }) => {
+  const userObj = useSelector(state => state.user);
+  const strings = languages(userObj.language);
+
   const searchRef = useRef(null);
 
   useEffect(() => {
@@ -15,24 +21,15 @@ const SearchBar = ({ onPress, value, onChange, showArrowLeft, goBack }) => {
   const getTextValue = () => {
     if (value)
       return value;
-    return 'Busca nova cidade';
+    return strings.searchNewCity;
   }
 
   if (onPress)
     return (
-      <>
-        {showArrowLeft && (
-          <TouchableOpacity style={{ marginRight: 8 }} onPress={goBack}>
-            <Icon name={'arrow-left'} size={20} />
-          </TouchableOpacity>
-        )}
-        <TouchableOpacity style={styles.textInput} onPress={onPress}>
-          {!showArrowLeft && (
-            <Icon name={'search'} size={20} />
-          )}
-          <Text style={styles.searchText}>{getTextValue()}</Text>
-        </TouchableOpacity>
-      </>
+      <TouchableOpacity style={styles.textInput} onPress={onPress}>
+        <Icon name={'search'} size={20} />
+        <Text style={styles.searchText}>{getTextValue()}</Text>
+      </TouchableOpacity>
     );
 
   return (
@@ -43,7 +40,7 @@ const SearchBar = ({ onPress, value, onChange, showArrowLeft, goBack }) => {
         value={value}
         onChangeText={onChange}
         style={styles.searchText}
-        placeholder={'Buscar nova cidade'}
+        placeholder={strings.searchNewCity}
       />
     </View>
   );

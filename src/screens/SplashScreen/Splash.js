@@ -21,18 +21,14 @@ const Splash = ({ navigation }) => {
   const dispatch = useDispatch();
   const setUserState = (user) => dispatch(setUser(user));
 
-  const [isLoading, setLoading] = useState(true);
-
   useEffect(() => {
     async function fetchUser() {
       const user = await getUserData();
       if (user && user.addedCities && user.addedCities.length > 0) {
-        console.log(user.addedCities);
-        const weatherCitiesData = await getWeatherCitiesData(user.addedCities);
+        const weatherCitiesData = await getWeatherCitiesData(user);
         user.addedCities = weatherCitiesData;
-        dispatch(setUserState(user));
       }
-      setLoading(false);
+      dispatch(setUserState(user));
       navigation.navigate('ListCities');
     }
     fetchUser();
